@@ -1,9 +1,16 @@
-import {Box, OrbitControls, OrthographicCamera} from '@react-three/drei'
+import {
+  Box,
+  OrbitControls,
+  OrthographicCamera,
+  useGLTF,
+} from '@react-three/drei'
 import {Canvas} from '@react-three/fiber'
 import {Bloom, EffectComposer, HueSaturation} from '@react-three/postprocessing'
 import {WebGLRenderer, WebGLRendererParameters} from 'three'
 
 function App() {
+  const {scene} = useGLTF('./Barracks_SecondAge_Level3.gltf')
+
   return (
     <div id="canvas-container">
       <Canvas
@@ -22,6 +29,7 @@ function App() {
         <Box args={[1, 1, 1]}>
           <meshStandardMaterial color="pink" />
         </Box>
+        <primitive object={scene} position={[0, -0.5, 0]}></primitive>
         <OrbitControls />
         <OrthographicCamera makeDefault position={[2, 3, 2]} zoom={400} />
         <EffectComposer>
