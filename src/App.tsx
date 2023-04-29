@@ -14,7 +14,7 @@ function App() {
   const ortho = useMemo(() => {
     const {search} = new URL(window.location.href)
     const searchParams = new URLSearchParams(search)
-    return searchParams.get('ortho') === 'true'
+    return searchParams.get('ortho') !== 'false'
   }, [])
 
   return (
