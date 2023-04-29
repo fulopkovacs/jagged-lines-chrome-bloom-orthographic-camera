@@ -6,10 +6,16 @@ import {
 } from '@react-three/drei'
 import {Canvas} from '@react-three/fiber'
 import {Bloom, EffectComposer, HueSaturation} from '@react-three/postprocessing'
+import {useMemo} from 'react'
 import {WebGLRenderer, WebGLRendererParameters} from 'three'
 
 function App() {
   const {scene} = useGLTF('./Barracks_SecondAge_Level3.gltf')
+  const ortho = useMemo(() => {
+    const {search} = new URL(window.location.href)
+    const searchParams = new URLSearchParams(search)
+    return searchParams.get('ortho') === 'true'
+  }, [])
 
   return (
     <div id="canvas-container">
@@ -31,7 +37,9 @@ function App() {
         </Box>
         <primitive object={scene} position={[0, -0.5, 0]}></primitive>
         <OrbitControls />
-        <OrthographicCamera makeDefault position={[2, 3, 2]} zoom={400} />
+        {ortho && (
+          <OrthographicCamera makeDefault position={[2, 3, 2]} zoom={400} />
+        )}
         <EffectComposer>
           <HueSaturation saturation={0.1} />
           <Bloom
