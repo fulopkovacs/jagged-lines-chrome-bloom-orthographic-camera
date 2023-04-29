@@ -1,34 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {Box, OrbitControls, OrthographicCamera} from '@react-three/drei'
+import {Canvas} from '@react-three/fiber'
+import {Bloom, EffectComposer, HueSaturation} from '@react-three/postprocessing'
+import {WebGLRenderer, WebGLRendererParameters} from 'three'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div id="canvas-container">
+      <Canvas
+        gl={(canvas: WebGLRendererParameters['canvas']) =>
+          new WebGLRenderer({
+            canvas,
+            powerPreference: 'high-performance',
+            antialias: false,
+            stencil: false,
+            depth: false,
+          })
+        }
+      >
+        <spotLight position={[-2, 4, 3]} intensity={0.7} />
+        <ambientLight intensity={0.1} />
+        <Box args={[1, 1, 1]}>
+          <meshStandardMaterial color="pink" />
+        </Box>
+        <OrbitControls />
+        <OrthographicCamera makeDefault position={[2, 3, 2]} zoom={400} />
+        <EffectComposer>
+          <HueSaturation saturation={0.1} />
+          <Bloom
+            luminanceThreshold={0.3}
+            luminanceSmoothing={0.7}
+            intensity={10}
+          />
+        </EffectComposer>
+      </Canvas>
+    </div>
   )
 }
 
