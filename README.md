@@ -1,4 +1,4 @@
-# Bug: Jagged Lines in Chrome when I use effects in postprocessing
+# A weird Chrome-bug: Minimum reproducible example
 
 ## Setup
 
